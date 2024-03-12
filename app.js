@@ -1,7 +1,6 @@
 // require are 
 
-// require the express module
-const express = require('express');
+
 
 // require mongoose
 const mongoose = require('mongoose');
@@ -27,6 +26,9 @@ app.use(methodOverride('_method'));
 
 // create a new instance of express
 const app = express();
+
+// require the express module
+const express = require('express');
 
 // set the view engine to ejs
 app.set('view engine', 'ejs'); 
