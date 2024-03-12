@@ -12,6 +12,11 @@ const Listing = require('./models/listing.js');
 // require path for views to require all ejs folders path 
 const path = require('path');
 
+// require the method-override module
+const methodOverride = require('method-override');
+
+// require the express-session module
+app.use(methodOverride('_method'));
 
 
 
@@ -55,6 +60,51 @@ app.get('/listings', async (req, res) => {
 
 
 
+
+
+// New Route 
+app.get('/listings/new', (req, res) => {
+    res.render("listings/new.ejs");
+});
+
+
+
+// Create Route
+app.post('/listings', async (req, res) => {
+
+    // extract data from the body of the request
+    // const { title, description, price, location, country } = req.body; 
+    // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
+    // and use below method 
+    let newListing = new Listing (req.body.listing); // extract data from the body of the request    
+    await newListing.save(); // save the listing to the database
+    res.redirect("/listings"); // redirect to the index route
+
+});
+
+
+
+// Edit Route
+app.get('/listings/:id/edit', async (req, res) => {
+    let { id } = req.params; // extract id
+    const listing = await Listing.findById(id); // find id and store data in listing
+    res.render("listings/edit.ejs", { listing }); // pass data for listing to edit.ejs
+});
+
+
+
+
+
+// update Route
+app.put('/listings/:id', async (req, res) => {
+    let { id } = req.params; // extract id
+    await Listing.findByIdAndUpdate(id, { ...req.body.listing  }); // find id and update data in listing
+    res.redirect(`/listings/${id}`); // redirect to the show route
+});
+
+
+
+
 // show Route 
 app.get('/listings/:id', async (req, res) => {
     let { id } = req.params;  // extract id
@@ -62,6 +112,7 @@ app.get('/listings/:id', async (req, res) => {
     console.log(id);
     res.render("listings/show.ejs", { listing }); // pass data for listing to show.ejs
 });
+
 
 
 // // Create new route for testing listing
