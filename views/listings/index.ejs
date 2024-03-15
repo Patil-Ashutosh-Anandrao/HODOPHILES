@@ -1,21 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HODOPHILES</title>
-</head>
+<% layout("/layouts/boilerplate") %>
+ 
 <body>
     <h3>All Listings</h3>
-    <form method="get" action="/listings/new">
+    <!-- <form method="get" action="/listings/new">
         <button>Create New Listing</button>
-    </form>
+    </form> -->
 
+
+
+    <!-- row-cols-lg-3 when srceen size is large (lg) it will show minimum 3 cards in a row -->
+    <!-- row-cols-md-2 when srceen size is medium (md) it will show minimum 2 cards in a row -->
+    <!-- row-cols-sm-1 when srceen size is small (sm) it will show minimum 1 cards in a row -->
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+
+    <!-- This is the loop that will display all the listings -->
+    <% for(let listing of allListings) {%> 
+
+        <a href="/listings/<%= listing._id %>" class="listing-link">
+            <div class="card col">
+                <img src="<%= listing.image %>" 
+                    class="card-img-top" 
+                    alt="listing_image" 
+                    style="height: 20rem;"
+                >
+
+
+                <!-- card-img-overlay is used to add text and change BG color of card  on hover occur on the image -->
+                <div class="card-img-overlay"></div>
+                      
+
+
+                <div class="card-body">
+                    <p class="card-text">
+                        <b><%= listing.title %> </b>
+                        <br>
+                        <%= listing.price.toLocaleString("en-IN") %> / Night 
+                    </p>
+                </div>
+            </div>
+        </a>
+
+    <% } %>
+
+        
+    </div>
+
+
+
+
+
+    <!-- 
     <ul>
         <% for(let listing of allListings) {%>
             <li><a href="/listings/<%= listing._id %>"><%= listing.title %></a></li>
         <% } %>
-    </ul>
+    </ul> -->
     
 </body>
 </html>

@@ -1,6 +1,15 @@
 // require are 
 
 
+// require the express module
+const express = require('express');
+
+// create a new instance of express
+const app = express();
+
+// // ***** don't Touch Above 2 lines vimp dont move then any where ***** // // 
+
+
 
 // require mongoose
 const mongoose = require('mongoose');
@@ -14,6 +23,12 @@ const path = require('path');
 // require the method-override module
 const methodOverride = require('method-override');
 
+// require ejs-mate 
+const ejsMate = require('ejs-mate');
+
+// define ejs engine 
+app.engine('ejs', ejsMate);
+
 // require the express-session module
 app.use(methodOverride('_method'));
 
@@ -23,13 +38,6 @@ app.use(methodOverride('_method'));
 
 
 
-
-// create a new instance of express
-const app = express();
-
-// require the express module
-const express = require('express');
-
 // set the view engine to ejs
 app.set('view engine', 'ejs'); 
 // set the views directory
@@ -37,6 +45,11 @@ app.set('views', path.join(__dirname, 'views'));
 
 // to parse the data comes in the body of the request
 app.use(express.urlencoded({ extended: true }));
+
+
+
+// to use static files from public folder and inside it from css folder 
+app.use(express.static(path.join(__dirname, "/public")));
 
 
 
@@ -104,6 +117,15 @@ app.put('/listings/:id', async (req, res) => {
     res.redirect(`/listings/${id}`); // redirect to the show route
 });
 
+
+// Delete Route 
+app.delete('/listings/:id', async (req, res) => {
+    let { id } = req.params; // extract id
+    let deletedListing = await Listing.findByIdAndDelete(id); 
+    // find id and delete data in listing
+
+    res.redirect("/listings"); // redirect to the index route
+});
 
 
 

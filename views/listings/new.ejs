@@ -6,31 +6,74 @@
     <title>HODOPHILES</title>
 </head>
 <body>
-    <h3> Create a New Listing </h3>
+    <% layout("/layouts/boilerplate") %>
 
-    <form method="post" action="/listings">
-        
-        <input type="text" name="listing[title]" placeholder="Title">
-        <br> <br>
+    <!-- divided the page into rows and columns -->
+    <div class="row">
 
-        <textarea type="text" name="listing[description]" placeholder="Description"></textarea>
-        <br> <br>
+        <!-- col-8 means 8 columns wide out of 12 columns occupied by the form  -->
+        <!-- offset-2 means the form is moved 2 columns to the right -->
+        <div class="col-8 offset-2">
+            <br><br>
 
-        <input type="text" name="listing[image]" placeholder="Image URL / Link">
-        <br><br>
+            <h3> Create a New Listing </h3>
 
-        <input type="number" name="listing[price]" placeholder="Price">
-        <br> <br>
+            <form method="post" action="/listings">
 
-        <input type="text" name="listing[country]" placeholder="Country">
-        <br> <br>
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" name="listing[title]" 
+                        placeholder="Add a Catchy Title" class="form-control">
 
-        <input type="text" name="listing[location]" placeholder="Location">
-        <br> <br>
+                </div>
+                
 
-        <button>Add</button>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea type="text" name="listing[description]" 
+                            placeholder="Description" class="form-control">
+                    </textarea>
+                </div>
+                
 
-    </form>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Image</label>
+                    <input type="text" name="listing[image]" 
+                        placeholder="Image URL / Link" class="form-control">
+                </div>
+
+
+                <div class="row">
+
+                    <div class="mb-3 col-md-4">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="number" name="listing[price]" 
+                            placeholder="1800" class="form-control">
+                    </div>
+                    
+
+                    <div class="mb-3 col-md-8">
+                        <label for="country" class="form-label">Country</label>
+                        <input type="text" name="listing[country]" 
+                            placeholder="India" class="form-control" />
+                    </div>
+                    
+                </div>
+
+                <div class="mb-3">
+                    <label for="location" class="form-label">Location</label>
+                    <input type="text" name="listing[location]" 
+                        placeholder="Location" class="form-control" />
+                </div>
+                
+                <br><br>
+                <button class="btn btn-dark add-btn">Add</button>
+
+            </form>
+            <br><br>
+
+        </div>
+    </div>
     
 </body>
 </html>
