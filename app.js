@@ -33,6 +33,9 @@ const wrapAsync = require('./public/util/wrapAsync.js');
 const ExpressError = require('./public/util/ExpressError.js');
 
 
+// require listingSchema
+const { listingSchema } = require('./schema.js');
+
 
 // Connect to the database
 const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
@@ -114,24 +117,75 @@ app.get('/listings/:id',
 
 
 
-// Create Route
+// // Create Route type -1 of validating  schema 
+// app.post('/listings', 
+//     wrapAsync (async (req, res, next) => {
+
+//     // extract data from the body of the request
+//     // const { title, description, price, location, country } = req.body; 
+//     // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
+//     // and use below method 
+    
+//         if (!req.body.listing) {
+//             throw new ExpressError(400, 'Invalid Listing Data');
+//         }
+//         const newListing = new Listing (req.body.listing); // extract data from the body of the request    
+        
+//         if (!newListing.title) {
+//             throw new ExpressError(401, 'Title is missing');
+//         }
+
+//         if (!newListing.description) {
+//             throw new ExpressError(402, 'description is missing');
+//         }
+
+//         if (!newListing.location) {
+//             throw new ExpressError(403, 'location is missing');
+//         }
+//         await newListing.save(); // save the listing to the database
+//         res.redirect("/listings"); // redirect to the index route
+   
+// })
+// );
+
+
+
+
+
+
+
+// Create Route type - 2 of validating  schema 
 app.post('/listings', 
     wrapAsync (async (req, res, next) => {
+
+    let result = listingSchema.validate(req.body); // 
+    console.log(result);
+
+    if(result.error){
+        throw new ExpressError(406,result.error);
+    }
 
     // extract data from the body of the request
     // const { title, description, price, location, country } = req.body; 
     // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
     // and use below method 
+
+    const newListing = new Listing (req.body.listing); // extract data from the body of the request    
+    await newListing.save(); // save the listing to the database
+    res.redirect("/listings"); // redirect to the index route
     
-        if (!req.body.listing) {
-            throw new ExpressError(400, 'Invalid Listing Data');
-        }
-        const newListing = new Listing (req.body.listing); // extract data from the body of the request    
-        await newListing.save(); // save the listing to the database
-        res.redirect("/listings"); // redirect to the index route
    
 })
 );
+
+
+
+
+
+
+
+
+
 
 
 
@@ -211,7 +265,8 @@ app.use((err, req, res, next) => {
     let {statusCode = 500, message="Something went Wrong !"} = err;
 
     // send error 
-    res.status(statusCode).send(message);
+    //res.status(statusCode).send(message);
+    res.status(statusCode).render("error.ejs",{message});
 
 });
 
