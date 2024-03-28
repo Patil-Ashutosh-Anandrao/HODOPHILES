@@ -85,15 +85,20 @@ app.get('/listings/new', (req, res) => {
 
 
 // Create Route
-app.post('/listings', async (req, res) => {
+app.post('/listings', async (req, res, next) => {
 
     // extract data from the body of the request
     // const { title, description, price, location, country } = req.body; 
     // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
     // and use below method 
-    let newListing = new Listing (req.body.listing); // extract data from the body of the request    
-    await newListing.save(); // save the listing to the database
-    res.redirect("/listings"); // redirect to the index route
+    try{
+        let newListing = new Listing (req.body.listing); // extract data from the body of the request    
+        await newListing.save(); // save the listing to the database
+        res.redirect("/listings"); // redirect to the index route
+    } 
+    catch (err) {
+        next(err);
+    } 
 
 });
 
@@ -156,6 +161,11 @@ app.get('/listings/:id', async (req, res) => {
 // });
 
 
+
+// middleware for custome error handling 
+app.use((err, req, res, next) => {
+    res.send("Something went Wrong !");
+});
 
 
 
