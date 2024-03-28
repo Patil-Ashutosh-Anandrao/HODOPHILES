@@ -77,6 +77,24 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 
+// validation for schema middleware 
+const validateListing = (req,res,next)=>{
+    
+    let {error} = listingSchema.validate(req.body); // 
+    
+    if(error){
+        let errMsg = error.details.map((el)=>el.message).join(",");// print additional details of error 
+        throw new ExpressError(406,errMsg);
+    }
+    else{
+        next();
+    }
+
+}
+
+
+
+
 // Basic API
 app.get('/', (req, res) => {
     res.send('Hello I am Root  ');
@@ -86,6 +104,7 @@ app.get('/', (req, res) => {
 
 // Create Index Route (fetch datafrom Db and show on webpage)
 app.get('/listings',
+        validateListing,
         wrapAsync (async (req, res) => {
     const allListings = await Listing.find({}); 
     res.render("listings/index.ejs", { allListings});
@@ -158,13 +177,6 @@ app.get('/listings/:id',
 app.post('/listings', 
     wrapAsync (async (req, res, next) => {
 
-    let result = listingSchema.validate(req.body); // 
-    console.log(result);
-
-    if(result.error){
-        throw new ExpressError(406,result.error);
-    }
-
     // extract data from the body of the request
     // const { title, description, price, location, country } = req.body; 
     // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
@@ -204,6 +216,7 @@ app.get('/listings/:id/edit',
 
 // update Route
 app.put('/listings/:id', 
+        validateListing,
         wrapAsync (async (req, res) => {
             if (!req.body.listing) {
                 throw new ExpressError(400, 'Invalid Listing Data');
