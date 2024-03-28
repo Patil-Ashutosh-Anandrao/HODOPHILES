@@ -130,3 +130,20 @@ body{
     background-color: #fe424d !important;
     border: none !important;
 }
+
+
+/* for Show page */
+
+.show-img{
+    height: 30vh;
+}
+
+.btns{
+    display: flex;
+}
+
+
+.show-card{
+     padding-left: 0;  /* this will remove padding from left side */
+    padding-right: 0;
+}
