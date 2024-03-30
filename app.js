@@ -104,7 +104,7 @@ app.get('/', (req, res) => {
 
 // Create Index Route (fetch datafrom Db and show on webpage)
 app.get('/listings',
-        validateListing,
+        //validateListing,
         wrapAsync (async (req, res) => {
     const allListings = await Listing.find({}); 
     res.render("listings/index.ejs", { allListings});
