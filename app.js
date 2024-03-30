@@ -37,6 +37,10 @@ const ExpressError = require('./public/util/ExpressError.js');
 const { listingSchema } = require('./schema.js');
 
 
+// require the Review model
+const Review = require('./models/review.js');
+
+
 // Connect to the database
 const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
 // HODOPHILES is the name of the database and this link is copied from the mongodb website 
@@ -237,6 +241,33 @@ app.delete('/listings/:id',
     res.redirect("/listings"); // redirect to the index route
 })
 );
+
+
+
+// create post route for reviews 
+app.post('/listings/:id/reviews', async(req,res)=>{
+    
+    //access the listing from id 
+    let listing = await Listing.findById(req.params.id);
+
+    // create new review
+    let newReview = new Review(req.body.review);
+
+    // push the review to the listing
+    listing.reviews.push(newReview);
+
+    // save 
+    await newReview.save();
+    await listing.save();
+
+    // console.log("New Review Saved");
+    // res.send("New Review Saved");
+
+
+    // redirect to the show route
+    res.redirect(`/listings/${listing._id}`);
+})
+
 
 
 
