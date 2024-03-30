@@ -1,6 +1,9 @@
 // require mongoose
 const mongoose = require('mongoose');
 
+// require review model
+const Review = require('./review.js');
+
 // store mongoose schema in schema varialble and use schema variable every where insten of using mongoose.schema 
 const Schema = mongoose.Schema;
 
@@ -31,6 +34,21 @@ const listingSchema = new Schema({
             ref: 'Review'
         }
     ] 
+});
+
+
+// to delete reviews of listing when listing is deleted ...!
+// letes create a mongoose middleware 
+// this is a middleware  which is used to delete the reviews of the listing when the listing is deleted
+listingSchema.post('findOneAndDelete', async function (listing) { 
+    
+    if (listing) {
+        await Review.deleteMany({
+            _id: {                     // delete all the reviews of the listing
+                $in: listing.reviews  // delete all the reviews of the listing
+            }
+        })
+    }
 });
 
 // create a new model using the listingschem 

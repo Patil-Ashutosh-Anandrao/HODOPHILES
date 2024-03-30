@@ -293,6 +293,23 @@ wrapAsync(async(req,res)=>{
 );
 
 
+// create delete review route 
+app.delete('/listings/:id/reviews/:reviewId',wrapAsync(async(req,res)=>{
+        
+        // extract id from url
+        let {id, reviewId} = req.params;
+    
+        // delete review from the listing array
+        // $ pull means remove from array which match with gived id reviews:reviewId
+        await Listing.findByIdAndUpdate(id, {$pull:{reviews:reviewId}});
+    
+        // delete review 
+        await Review.findByIdAndDelete(reviewId);
+    
+        // redirect to the show route
+        res.redirect(`/listings/${id}`);
+    })
+);
 
 
 
@@ -340,7 +357,7 @@ app.use((err, req, res, next) => {
 
 
 
-// start the server
+// start the server for execution 
 app.listen(8080, () => {
     console.log('Server is running...');
 }); 
