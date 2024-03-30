@@ -34,7 +34,7 @@ const ExpressError = require('./public/util/ExpressError.js');
 
 
 // require listingSchema
-const { listingSchema } = require('./schema.js');
+const { listingSchema, reviewSchema } = require('./schema.js');
 
 
 // require the Review model
@@ -99,6 +99,27 @@ const validateListing = (req,res,next)=>{
 
 
 
+
+
+
+// validation for schema middleware 
+const validateReview = (req,res,next)=>{
+    
+    let {error} = reviewSchema.validate(req.body); // 
+    
+    if(error){
+        let errMsg = error.details.map((el)=>el.message).join(",");// print additional details of error 
+        throw new ExpressError(406,errMsg);
+    }
+    else{
+        next();
+    }
+
+}
+
+
+
+
 // Basic API
 app.get('/', (req, res) => {
     res.send('Hello I am Root  ');
@@ -130,7 +151,7 @@ app.get('/listings/new', (req, res) => {
 app.get('/listings/:id', 
         wrapAsync (async (req, res) => {
     let { id } = req.params;  // extract id
-    const listing = await Listing.findById(id); // find id and store data in listing
+    const listing = await Listing.findById(id).populate("reviews"); // find id and store data in listing
     console.log(id);
     res.render("listings/show.ejs", { listing }); // pass data for listing to show.ejs
 })
@@ -245,7 +266,9 @@ app.delete('/listings/:id',
 
 
 // create post route for reviews 
-app.post('/listings/:id/reviews', async(req,res)=>{
+app.post('/listings/:id/reviews', 
+validateReview, 
+wrapAsync(async(req,res)=>{
     
     //access the listing from id 
     let listing = await Listing.findById(req.params.id);
@@ -267,6 +290,7 @@ app.post('/listings/:id/reviews', async(req,res)=>{
     // redirect to the show route
     res.redirect(`/listings/${listing._id}`);
 })
+);
 
 
 
