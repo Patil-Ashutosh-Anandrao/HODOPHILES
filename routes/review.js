@@ -2,7 +2,7 @@
 const express = require('express');  
 
 // create a new Router
-const router = express.Router();
+const router = express.Router({mergeParams:true});
 
 
 //require the wrapAsync module
@@ -17,7 +17,7 @@ const { listingSchema, reviewSchema } = require('../schema.js');
 
 
 // require the listing model
-const Listing = require('./models/listing.js');
+const Listing = require('../models/listing.js');
 
 // require the Review model
 const Review = require('../models/review.js');
