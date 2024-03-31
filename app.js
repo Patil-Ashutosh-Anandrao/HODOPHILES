@@ -40,6 +40,9 @@ const { listingSchema, reviewSchema } = require('./schema.js');
 // require the Review model
 const Review = require('./models/review.js');
 
+// require the listing model
+const listings = require('./routes/listing.js');
+
 
 // Connect to the database
 const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
@@ -81,23 +84,6 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 
 
-// validation for schema middleware 
-const validateListing = (req,res,next)=>{
-    
-    let {error} = listingSchema.validate(req.body); // 
-    
-    if(error){
-        let errMsg = error.details.map((el)=>el.message).join(",");// print additional details of error 
-        throw new ExpressError(406,errMsg);
-    }
-    else{
-        next();
-    }
-
-}
-
-
-
 
 
 
@@ -124,39 +110,6 @@ const validateReview = (req,res,next)=>{
 app.get('/', (req, res) => {
     res.send('Hello I am Root  ');
 });
-
-
-
-// Create Index Route (fetch datafrom Db and show on webpage)
-app.get('/listings',
-        wrapAsync (async (req, res) => {
-    const allListings = await Listing.find({}); 
-    res.render("listings/index.ejs", { allListings});
-})
-);
-
-
-
-
-
-// New Route 
-app.get('/listings/new', (req, res) => {
-    res.render("listings/new.ejs");
-});
-
-
-
-
-// show Route 
-app.get('/listings/:id', 
-        wrapAsync (async (req, res) => {
-    let { id } = req.params;  // extract id
-    const listing = await Listing.findById(id).populate("reviews"); // find id and store data in listing
-    console.log(id);
-    res.render("listings/show.ejs", { listing }); // pass data for listing to show.ejs
-})
-);
-
 
 
 
@@ -196,72 +149,9 @@ app.get('/listings/:id',
 
 
 
+// use the listing route for all the routes starting with /listings
+app.use('/listings', Listing); 
 
-// Create Route type - 2 of validating  schema 
-app.post('/listings', 
-    wrapAsync (async (req, res, next) => {
-
-    // extract data from the body of the request
-    // const { title, description, price, location, country } = req.body; 
-    // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
-    // and use below method 
-
-    const newListing = new Listing (req.body.listing); // extract data from the body of the request    
-    await newListing.save(); // save the listing to the database
-    res.redirect("/listings"); // redirect to the index route
-    
-   
-})
-);
-
-
-
-
-
-
-
-
-
-
-
-
-// Edit Route
-app.get('/listings/:id/edit', 
-        wrapAsync (async (req, res) => {
-    let { id } = req.params; // extract id
-    const listing = await Listing.findById(id); // find id and store data in listing
-    res.render("listings/edit.ejs", { listing }); // pass data for listing to edit.ejs
-})
-);
-
-
-
-
-
-// update Route
-app.put('/listings/:id', 
-        validateListing,
-        wrapAsync (async (req, res) => {
-            if (!req.body.listing) {
-                throw new ExpressError(400, 'Invalid Listing Data');
-            }
-    let { id } = req.params; // extract id
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing  }); // find id and update data in listing
-    res.redirect(`/listings/${id}`); // redirect to the show route
-})
-);
-
-
-// Delete Route 
-app.delete('/listings/:id', 
-            wrapAsync (async (req, res) => {
-    let { id } = req.params; // extract id
-    let deletedListing = await Listing.findByIdAndDelete(id); 
-    // find id and delete data in listing
-
-    res.redirect("/listings"); // redirect to the index route
-})
-);
 
 
 
