@@ -43,6 +43,9 @@ const Review = require('./models/review.js');
 // require the listing model
 const listings = require('./routes/listing.js');
 
+// require the review model
+const reviews = require('./routes/review.js');
+
 
 // Connect to the database
 const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
@@ -79,29 +82,6 @@ app.engine('ejs', ejsMate);
 
 // to use static files from public folder and inside it from css folder 
 app.use(express.static(path.join(__dirname, "/public")));
-
-
-
-
-
-
-
-
-
-// validation for schema middleware 
-const validateReview = (req,res,next)=>{
-    
-    let {error} = reviewSchema.validate(req.body); // 
-    
-    if(error){
-        let errMsg = error.details.map((el)=>el.message).join(",");// print additional details of error 
-        throw new ExpressError(406,errMsg);
-    }
-    else{
-        next();
-    }
-
-}
 
 
 
@@ -150,56 +130,15 @@ app.get('/', (req, res) => {
 
 
 // use the listing route for all the routes starting with /listings
-app.use('/listings', Listing); 
+app.use('/listings', listings); 
+
+
+// use the review route for all the routes starting with /listings/:id/reviews
+app.use('/listings/:id/reviews', reviews); 
 
 
 
 
-// create post route for reviews 
-app.post('/listings/:id/reviews', 
-validateReview, 
-wrapAsync(async(req,res)=>{
-    
-    //access the listing from id 
-    let listing = await Listing.findById(req.params.id);
-
-    // create new review
-    let newReview = new Review(req.body.review);
-
-    // push the review to the listing
-    listing.reviews.push(newReview);
-
-    // save 
-    await newReview.save();
-    await listing.save();
-
-    // console.log("New Review Saved");
-    // res.send("New Review Saved");
-
-
-    // redirect to the show route
-    res.redirect(`/listings/${listing._id}`);
-})
-);
-
-
-// create delete review route 
-app.delete('/listings/:id/reviews/:reviewId',wrapAsync(async(req,res)=>{
-        
-        // extract id from url
-        let {id, reviewId} = req.params;
-    
-        // delete review from the listing array
-        // $ pull means remove from array which match with gived id reviews:reviewId
-        await Listing.findByIdAndUpdate(id, {$pull:{reviews:reviewId}});
-    
-        // delete review 
-        await Review.findByIdAndDelete(reviewId);
-    
-        // redirect to the show route
-        res.redirect(`/listings/${id}`);
-    })
-);
 
 
 
