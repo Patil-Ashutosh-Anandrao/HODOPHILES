@@ -15,7 +15,7 @@ const app = express();
 const mongoose = require('mongoose');
 
 // require the listing model
-const Listing = require('./models/listing.js');
+// const Listing = require('./models/listing.js');
 
 // require path for views to require all ejs folders path 
 const path = require('path');
