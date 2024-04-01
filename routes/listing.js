@@ -66,7 +66,13 @@ router.get('/:id',
         wrapAsync (async (req, res) => {
     let { id } = req.params;  // extract id
     const listing = await Listing.findById(id).populate("reviews"); // find id and store data in listing
-    console.log(id);
+    // console.log(id);
+
+    if(!listing){
+        req.flash('error', 'listing you requested for does not exist !'); // flash message (error)
+        res.redirect("/listings"); // redirect to the index route
+    }
+
     res.render("listings/show.ejs", { listing }); // pass data for listing to show.ejs
 })
 );
@@ -101,6 +107,13 @@ router.get('/:id/edit',
         wrapAsync (async (req, res) => {
     let { id } = req.params; // extract id
     const listing = await Listing.findById(id); // find id and store data in listing
+
+    if(!listing){
+        req.flash('error', 'listing you requested for does not exist !'); // flash message (error)
+        res.redirect("/listings"); // redirect to the index route
+    }
+
+    
     res.render("listings/edit.ejs", { listing }); // pass data for listing to edit.ejs
 })
 );
