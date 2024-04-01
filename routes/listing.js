@@ -76,6 +76,7 @@ router.get('/:id',
 
 // Create Route type - 2 of validating  schema 
 router.post('/', 
+    validateListing,
     wrapAsync (async (req, res, next) => {
 
     // extract data from the body of the request
@@ -85,6 +86,9 @@ router.post('/',
 
     const newListing = new Listing (req.body.listing); // extract data from the body of the request    
     await newListing.save(); // save the listing to the database
+
+    req.flash('success', 'Successfully made a new listing!'); // flash message (success
+    
     res.redirect("/listings"); // redirect to the index route
     
    

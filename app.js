@@ -106,20 +106,24 @@ const sessionOptions = {
 }
 
 
+// Basic API
+app.get('/', (req, res) => {
+    res.send('Hello I am Root  ');
+});
+
+// middleware for flash messages
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    next();
+});
+
+
 
 // use the session options
 app.use(session(sessionOptions));
 
 // use the flash
 app.use(flash());
-
-
-
-// Basic API
-app.get('/', (req, res) => {
-    res.send('Hello I am Root  ');
-});
-
 
 
 // // Create Route type -1 of validating  schema 
