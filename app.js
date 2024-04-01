@@ -32,6 +32,9 @@ const wrapAsync = require('./public/util/wrapAsync.js');
 // require the ExpressError module
 const ExpressError = require('./public/util/ExpressError.js');
 
+// require express session 
+const session = require("express-session");
+
 
 // require listingSchema
 const { listingSchema, reviewSchema } = require('./schema.js');
@@ -45,6 +48,9 @@ const listings = require('./routes/listing.js');
 
 // require the review model
 const reviews = require('./routes/review.js');
+
+// require flash 
+const flash = require('connect-flash'); 
 
 
 // Connect to the database
@@ -83,6 +89,29 @@ app.engine('ejs', ejsMate);
 // to use static files from public folder and inside it from css folder 
 app.use(express.static(path.join(__dirname, "/public")));
 
+
+// define session options 
+const sessionOptions = { 
+    secret: "my_super_secret_code", // this is the secret code to hash the session id
+    resave: false, // this is to avoid saving the session again and again
+    saveUninitialized: true, // this is to save the session in the database
+
+    cookie:{
+        expires: Date.now() + 7 *  24 * 60  * 60 * 1000, // this is to set the expiry time of the cookie
+                          //days   hrs  min  sec  milisec  ( after 7 days this cookie will deleted !) 
+        
+        maxAge : 7 *  24 * 60  * 60 * 1000, // this is to set the max age of the cookie
+        httpOnly:true          // this is to make the cookie http only
+    }
+}
+
+
+
+// use the session options
+app.use(session(sessionOptions));
+
+// use the flash
+app.use(flash());
 
 
 
