@@ -76,7 +76,7 @@ router.get('/:id',
 
 // Create Route type - 2 of validating  schema 
 router.post('/', 
-    validateListing,
+    // validateListing,
     wrapAsync (async (req, res, next) => {
 
     // extract data from the body of the request
