@@ -118,6 +118,9 @@ router.put('/:id',
             }
     let { id } = req.params; // extract id
     await Listing.findByIdAndUpdate(id, { ...req.body.listing  }); // find id and update data in listing
+   
+    req.flash('success', 'Successfully  listing Updated  !');
+
     res.redirect(`/listings/${id}`); // redirect to the show route
 })
 );
@@ -129,6 +132,9 @@ router.delete('/:id',
     let { id } = req.params; // extract id
     let deletedListing = await Listing.findByIdAndDelete(id); 
     // find id and delete data in listing
+
+
+    req.flash('success', 'Successfully  listing Deleted !'); 
 
     res.redirect("/listings"); // redirect to the index route
 })

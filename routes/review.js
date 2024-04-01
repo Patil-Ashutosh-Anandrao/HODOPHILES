@@ -64,6 +64,8 @@ wrapAsync(async(req,res)=>{
     // console.log("New Review Saved");
     // res.send("New Review Saved");
 
+    // flash message
+    req.flash('success','New Review Saved');
 
     // redirect to the show route
     res.redirect(`/listings/${listing._id}`);
@@ -84,6 +86,9 @@ router.delete('/:reviewId',wrapAsync(async(req,res)=>{
 
     // delete review 
     await Review.findByIdAndDelete(reviewId);
+
+    // flash message
+    req.flash('success','Review Deleted !');
 
     // redirect to the show route
     res.redirect(`/listings/${id}`);
