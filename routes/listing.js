@@ -19,6 +19,9 @@ const { listingSchema, reviewSchema } = require('../schema.js');
 // require the listing model
 const Listing = require('../models/listing.js');
 
+// require the middleware module
+const {  isLoggedIn } = require('../middleware.js');
+
 
 
 
@@ -54,7 +57,9 @@ router.get('/',
 
 
 // New Route 
-router.get('/new', (req, res) => {
+router.get('/new', 
+    isLoggedIn,
+    (req, res) => {
     res.render("listings/new.ejs");
 });
 
@@ -83,6 +88,7 @@ router.get('/:id',
 // Create Route type - 2 of validating  schema 
 router.post('/', 
     // validateListing,
+    isLoggedIn,
     wrapAsync (async (req, res, next) => {
 
     // extract data from the body of the request
@@ -104,6 +110,7 @@ router.post('/',
 
 // Edit Route
 router.get('/:id/edit', 
+        isLoggedIn,
         wrapAsync (async (req, res) => {
     let { id } = req.params; // extract id
     const listing = await Listing.findById(id); // find id and store data in listing
@@ -124,6 +131,7 @@ router.get('/:id/edit',
 
 // update Route
 router.put('/:id', 
+        isLoggedIn,
         validateListing,
         wrapAsync (async (req, res) => {
             if (!req.body.listing) {
@@ -141,6 +149,7 @@ router.put('/:id',
 
 // Delete Route 
 router.delete('/:id', 
+            isLoggedIn,
             wrapAsync (async (req, res) => {
     let { id } = req.params; // extract id
     let deletedListing = await Listing.findByIdAndDelete(id); 
