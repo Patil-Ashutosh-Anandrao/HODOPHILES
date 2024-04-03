@@ -10,6 +10,9 @@ const User = require('../models/user.js');
 // require the wrapAsync module
 const wrapAsync = require('../public/util/wrapAsync.js');
 
+// require passport
+const passport = require('passport');
+
 
 // create router for login 
 router.get('/signup', (req, res) => {
@@ -39,12 +42,28 @@ router.post('/signup',
         }
         catch(e) {
 
-            
+
             req.flash('error', e.message);
             res.redirect('/signup');
         }
     
 }));
+
+
+// router for log in user 
+router.get('/login', (req, res) => {
+    res.render('users/login.ejs');
+});
+
+router.post('/login', 
+    passport.authenticate("local", { failureFlash: true, failureRedirect: '/login' }),// authenticate user 
+     async (req, res) => {
+        req.flash('success', 'Welcome back!');
+        res.redirect('/listings');
+    }
+);
+
+
 
 
 //export the router
