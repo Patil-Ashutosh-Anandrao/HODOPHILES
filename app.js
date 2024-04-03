@@ -52,6 +52,15 @@ const reviews = require('./routes/review.js');
 // require flash 
 const flash = require('connect-flash'); 
 
+// require passport
+const passport = require('passport');
+
+// require local strategy
+const LocalStrategy = require('passport-local');
+
+// require the User model
+const User = require('./models/user.js'); 
+
 
 // Connect to the database
 const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
@@ -119,6 +128,14 @@ app.use(session(sessionOptions));
 // use the flash
 app.use(flash());
 
+
+
+// implement the passport
+app.use(passport.initialize());  // this is to initialize the passport
+app.use(passport.session()); // this is to use the passport session
+passport.use(new LocalStrategy(User.authenticate())); // this is to use the local strategy 
+passport.serializeUser(User.serializeUser()); // this is to serialize the user
+passport.deserializeUser(User.deserializeUser()); // this is to deserialize the user
 
 // middleware for flash messages
 app.use((req, res, next) => {
