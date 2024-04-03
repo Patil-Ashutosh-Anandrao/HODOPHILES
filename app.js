@@ -182,15 +182,15 @@ app.use((req, res, next) => {
 
 
 
-// create route 
-app.get('/demouser', async (req, res) => {
-    const fakeUser = new User({ 
-        email: 'student@gmail.com',
-        username: 'delta-student'
-    });
-    let registeredUser = await User.register(fakeUser, 'helloworld'); // this is static method used to store register the user
-    res.send(registeredUser);
-});
+// // create route 
+// app.get('/demouser', async (req, res) => {
+//     const fakeUser = new User({ 
+//         email: 'student@gmail.com',
+//         username: 'delta-student'
+//     });
+//     let registeredUser = await User.register(fakeUser, 'helloworld'); // this is static method used to store register the user
+//     res.send(registeredUser);
+// });
 
 
 
