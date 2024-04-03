@@ -44,10 +44,13 @@ const { listingSchema, reviewSchema } = require('./schema.js');
 const Review = require('./models/review.js');
 
 // require the listing model
-const listings = require('./routes/listing.js');
+const listingRouter = require('./routes/listing.js');
 
 // require the review model
-const reviews = require('./routes/review.js');
+const reviewRouter = require('./routes/review.js');
+
+// require the user model
+const userRouter = require('./routes/user.js');
 
 // require flash 
 const flash = require('connect-flash'); 
@@ -179,15 +182,28 @@ app.use((req, res, next) => {
 
 
 
+// create route 
+app.get('/demouser', async (req, res) => {
+    const fakeUser = new User({ 
+        email: 'student@gmail.com',
+        username: 'delta-student'
+    });
+    let registeredUser = await User.register(fakeUser, 'helloworld'); // this is static method used to store register the user
+    res.send(registeredUser);
+});
+
 
 
 
 // use the listing route for all the routes starting with /listings
-app.use('/listings', listings); 
+app.use('/listings', listingRouter); 
 
 
 // use the review route for all the routes starting with /listings/:id/reviews
-app.use('/listings/:id/reviews', reviews); 
+app.use('/listings/:id/reviews', reviewRouter); 
+
+// use the user route for all the routes starting with /users
+app.use('/', userRouter);
 
 
 
