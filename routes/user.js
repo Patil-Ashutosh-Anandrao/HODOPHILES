@@ -66,7 +66,7 @@ router.post('/login',
      async (req, res) => {
         req.flash('success', 'Welcome back!');
     
-        let redirectUrl = req.locals.redirectUrl || '/listings'; // redirect to the original url
+        let redirectUrl = res.locals.redirectUrl || '/listings'; // redirect to the original url
         res.redirect(redirectUrl);
     }
 );
