@@ -16,7 +16,7 @@ const ExpressError = require('../public/util/ExpressError.js');
 const { listingSchema, reviewSchema } = require('../schema.js');
 
 // require reviews 
-const {validateReview} = require('../middleware.js');
+const {validateReview, isLoggedIn} = require('../middleware.js');
 
 
 // require the listing model
@@ -32,6 +32,7 @@ const Review = require('../models/review.js');
 
 // create post route for reviews 
 router.post('/', 
+isLoggedIn, // safty from hopscoths users 
 validateReview, 
 wrapAsync(async(req,res)=>{
     
@@ -40,6 +41,9 @@ wrapAsync(async(req,res)=>{
 
     // create new review
     let newReview = new Review(req.body.review);
+
+    // store author if there is new review 
+    newReview.author=req.user._id;
 
     // push the review to the listing
     listing.reviews.push(newReview);

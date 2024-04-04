@@ -52,8 +52,8 @@ router.get('/new',
 router.get('/:id', 
         wrapAsync (async (req, res) => {
     let { id } = req.params;  // extract id
-    const listing = await Listing.findById(id).populate("reviews")  // find id and store data in listing
-    .populate("owner"); // populate owner data also
+    const listing = await Listing.findById(id)  // find id and store data in listing
+    
     
     // console.log(id);
 

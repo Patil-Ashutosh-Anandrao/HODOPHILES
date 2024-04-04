@@ -15,6 +15,11 @@ const reviewSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now() // this will set the current date and time
+    },
+    // for reviews 
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 });
 
