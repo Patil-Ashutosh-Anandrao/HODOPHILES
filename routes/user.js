@@ -34,19 +34,21 @@ router.post('/signup',
             const registeredUser = await User.register(newUser, password);
             console.log(registeredUser);
         
-            // flash message 
-            req.flash('success', 'Welcome !');
-        
-            // redirect
-            res.redirect('/listings');
-        }
-        catch(e) {
-
-
-            req.flash('error', e.message);
-            res.redirect('/signup');
-        }
-    
+            req.login(registeredUser, err => { // callback function from passport
+                if(err) {
+                    return next(err);
+                }
+                // flash message 
+                req.flash('success', 'Welcome !');
+            
+                // redirect
+                res.redirect('/listings');
+            });            
+            }
+            catch(e) {
+                req.flash('error', e.message);
+                res.redirect('/signup');
+            }
 }));
 
 
