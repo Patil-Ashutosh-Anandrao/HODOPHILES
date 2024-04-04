@@ -13,6 +13,9 @@ const wrapAsync = require('../public/util/wrapAsync.js');
 // require passport
 const passport = require('passport');
 
+// require saveRedirectUrl 
+const { saveRedirectUrl } = require('../middleware.js');
+
 
 // create router for login 
 router.get('/signup', (req, res) => {
@@ -57,11 +60,14 @@ router.get('/login', (req, res) => {
     res.render('users/login.ejs');
 });
 
-router.post('/login', 
+router.post('/login',
+    saveRedirectUrl,
     passport.authenticate("local", { failureFlash: true, failureRedirect: '/login' }),// authenticate user 
      async (req, res) => {
         req.flash('success', 'Welcome back!');
-        res.redirect('/listings');
+    
+        let redirectUrl = req.locals.redirectUrl || '/listings'; // redirect to the original url
+        res.redirect(redirectUrl);
     }
 );
 
