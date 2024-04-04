@@ -1,5 +1,7 @@
 const Listing = require('./models/listing'); // require the listing model
 
+const Review = require('./models/review'); // require the Review model
+
 // require the ExpressError module
 const ExpressError = require('./public/util/ExpressError.js');
 
@@ -82,3 +84,15 @@ module.exports.validateReview = (req,res,next)=>{
 
 }
 
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+
+    let { id, reviewId } = req.params; // extract id
+    
+    let review = await Review.findById(reviewId); // find id and store data in listing
+    if(!review.author.equals(res.locals.currUser._id)){// check if the owner of the listing is the current user
+        req.flash('error', 'You are not the auther of this Review !'); // flash message (error)
+        return res.redirect(`/listings/${id}`); // redirect to the show route
+    } 
+    next();
+}

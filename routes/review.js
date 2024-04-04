@@ -16,7 +16,7 @@ const ExpressError = require('../public/util/ExpressError.js');
 const { listingSchema, reviewSchema } = require('../schema.js');
 
 // require reviews 
-const {validateReview, isLoggedIn} = require('../middleware.js');
+const {validateReview, isLoggedIn, isReviewAuthor} = require('../middleware.js');
 
 
 // require the listing model
@@ -66,7 +66,10 @@ wrapAsync(async(req,res)=>{
 
 
 // create delete review route 
-router.delete('/:reviewId',wrapAsync(async(req,res)=>{
+router.delete('/:reviewId',
+    isLoggedIn, // safty from hopscoths users
+    isReviewAuthor, // check if the author is the same as the current user
+    wrapAsync(async(req,res)=>{
         
     // extract id from url
     let {id, reviewId} = req.params;

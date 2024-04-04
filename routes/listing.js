@@ -54,6 +54,12 @@ router.get('/:id',
     let { id } = req.params;  // extract id
     const listing = await Listing.findById(id)  // find id and store data in listing
     
+    .populate({path : "reviews",
+                        populate:{
+                            path:"author"
+                        },
+                    })// populate reviews data with path 
+    .populate("owner"); // populate owner data also
     
     // console.log(id);
 
