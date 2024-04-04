@@ -70,7 +70,9 @@ router.get('/new',
 router.get('/:id', 
         wrapAsync (async (req, res) => {
     let { id } = req.params;  // extract id
-    const listing = await Listing.findById(id).populate("reviews"); // find id and store data in listing
+    const listing = await Listing.findById(id).populate("reviews")  // find id and store data in listing
+    .populate("owner"); // populate owner data also
+    
     // console.log(id);
 
     if(!listing){
@@ -97,6 +99,9 @@ router.post('/',
     // and use below method 
 
     const newListing = new Listing (req.body.listing); // extract data from the body of the request    
+
+    newListing.owner = req.user._id; // add owner to the listing
+
     await newListing.save(); // save the listing to the database
 
     req.flash('success', 'Successfully made a new listing!'); // flash message (success

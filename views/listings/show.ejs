@@ -16,17 +16,29 @@
 
                 <div class="card-body">
                     <p class="card-text">
+                        <i>
+                            Owned By :- <%= listing.owner.username  %>
+                        </i>
+                    </p>
 
-                        <br>
-                        <li><%= listing.description  %></li>
-                        <br>
+                    <p class="card-text">
+                        <li>
+                            <%= listing.description  %>
+                        </li>
+                    </p>
+
+                    <p class="card-text">
                         &#8377; <%= listing.price.toLocaleString("en-IN")  %>
                         <!-- &#8377; for Rs. Sign & toLocaleString("en-IN") used for comma in price in indian method -->
-                        <br>
-                        <%= listing.location  %>
-                        <br>
-                        <%= listing.country  %>
+                    </p>
 
+                    <p class="card-text">
+                        <%= listing.location  %>
+                    </p>
+
+                    <p class="card-text">
+                        <%= listing.country  %>
+                    </p>
 
 
 

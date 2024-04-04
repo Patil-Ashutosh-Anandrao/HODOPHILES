@@ -33,7 +33,14 @@ const listingSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: 'Review'
         }
-    ] 
+    ],
+
+
+    // owner will refer user.js from models 
+    owner:{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+    }, 
 });
 
 
