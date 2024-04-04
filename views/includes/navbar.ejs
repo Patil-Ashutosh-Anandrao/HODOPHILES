@@ -15,11 +15,24 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        
         <div class="navbar-nav">
           <a class="nav-link" href="/">Home</a>
           <a class="nav-link" href="/listings">All Listings </a>
           <a class="nav-link" href="/listings/new">Create New Lis ting </a>
         </div>
+
+        <div class="navbar-nav ms-auto" > <!-- ms-auto is used to move the links to right side -->
+          <% if(!currUser) { %>
+            <a class="nav-link" href="/signup">Sign Up</a>
+            <a class="nav-link" href="/login">Log in </a>
+          <% } %>
+
+          <% if(currUser) { %>
+            <a class="nav-link" href="/logout">Log out </a>
+          <% } %>
+        </div>
+
       </div>
     </div>
   </nav>  

@@ -64,6 +64,18 @@ router.post('/login',
 );
 
 
+// router for logout user 
+router.get('/logout', (req, res) => {
+    req.logout ( (err)=>{ // callback function from passport
+        if(err){
+            return next(err);
+        }
+    req.flash('success', 'You LoggedOut !');
+    res.redirect('/listings');
+})
+});
+
+
 
 
 //export the router

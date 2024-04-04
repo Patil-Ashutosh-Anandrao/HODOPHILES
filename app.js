@@ -145,6 +145,9 @@ app.use((req, res, next) => {
     res.locals.success = req.flash('success');// this is to get the success message from the flash
 
     res.locals.error = req.flash('error'); // this is to get the error message from the flash
+    
+    res.locals.currUser = req.user; // this is to get the current user info 
+
     next();
 });
 
