@@ -15,6 +15,9 @@ const ExpressError = require('../public/util/ExpressError.js');
 // require listingSchema
 const { listingSchema, reviewSchema } = require('../schema.js');
 
+// require reviews 
+const {validateReview} = require('../middleware.js');
+
 
 // require the listing model
 const Listing = require('../models/listing.js');
@@ -22,22 +25,6 @@ const Listing = require('../models/listing.js');
 // require the Review model
 const Review = require('../models/review.js');
 
-
-
-// validation for schema middleware 
-const validateReview = (req,res,next)=>{
-    
-    let {error} = reviewSchema.validate(req.body); // 
-    
-    if(error){
-        let errMsg = error.details.map((el)=>el.message).join(",");// print additional details of error 
-        throw new ExpressError(406,errMsg);
-    }
-    else{
-        next();
-    }
-
-}
 
 
 

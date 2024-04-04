@@ -20,25 +20,7 @@ const { listingSchema, reviewSchema } = require('../schema.js');
 const Listing = require('../models/listing.js');
 
 // require the middleware module
-const {  isLoggedIn } = require('../middleware.js');
-
-
-
-
-// validation for schema middleware 
-const validateListing = (req,res,next)=>{
-    
-    let {error} = listingSchema.validate(req.body); // 
-    
-    if(error){
-        let errMsg = error.details.map((el)=>el.message).join(",");// print additional details of error 
-        throw new ExpressError(406,errMsg);
-    }
-    else{
-        next();
-    }
-
-}
+const {  isLoggedIn, isOwner , validateListing} = require('../middleware.js');
 
 
 
@@ -116,6 +98,7 @@ router.post('/',
 // Edit Route
 router.get('/:id/edit', 
         isLoggedIn,
+        isOwner,
         wrapAsync (async (req, res) => {
     let { id } = req.params; // extract id
     const listing = await Listing.findById(id); // find id and store data in listing
@@ -137,12 +120,15 @@ router.get('/:id/edit',
 // update Route
 router.put('/:id', 
         isLoggedIn,
+        isOwner,
         validateListing,
         wrapAsync (async (req, res) => {
             if (!req.body.listing) {
                 throw new ExpressError(400, 'Invalid Listing Data');
             }
+    
     let { id } = req.params; // extract id
+    
     await Listing.findByIdAndUpdate(id, { ...req.body.listing  }); // find id and update data in listing
    
     req.flash('success', 'Successfully  listing Updated  !');
@@ -155,6 +141,7 @@ router.put('/:id',
 // Delete Route 
 router.delete('/:id', 
             isLoggedIn,
+            isOwner,
             wrapAsync (async (req, res) => {
     let { id } = req.params; // extract id
     let deletedListing = await Listing.findByIdAndDelete(id); 
