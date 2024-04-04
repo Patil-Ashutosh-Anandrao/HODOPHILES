@@ -22,17 +22,13 @@ const Listing = require('../models/listing.js');
 // require the middleware module
 const {  isLoggedIn, isOwner , validateListing} = require('../middleware.js');
 
-
+// require the listing from controller folder
+const listingsController = require('../controllers/listings.js');
 
 
 
 // Create Index Route (fetch datafrom Db and show on webpage)
-router.get('/',
-        wrapAsync (async (req, res) => {
-    const allListings = await Listing.find({}); 
-    res.render("listings/index.ejs", { allListings});
-})
-);
+router.get('/',wrapAsync (listingsController.index));
 
 
 
