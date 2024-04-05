@@ -25,16 +25,28 @@ const {  isLoggedIn, isOwner , validateListing} = require('../middleware.js');
 // require the listing from controller folder
 const listingsController = require('../controllers/listings.js');
 
+// require multer 
+const multer  = require('multer');
+
+// require upload for multer 
+const upload = multer({ dest: 'uploads/' });
+
+
 
 // code of router.route 
 router
 .route("/")
 .get(wrapAsync (listingsController.index))
 
-.post( // validateListing
-isLoggedIn,wrapAsync (listingsController.createListing)
-);
+// .post( // validateListing
+// isLoggedIn,wrapAsync (listingsController.createListing)
+// );
 
+
+.post (upload.single('listing[image]'), (req, res) => {
+        console.log(req.file);
+        res.send(req.file);
+});
 
 // New Route 
 router.get('/new', isLoggedIn, listingsController.renderNewForm   );
