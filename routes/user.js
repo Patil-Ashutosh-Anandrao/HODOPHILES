@@ -32,7 +32,7 @@ router
 .get( userController.renderLoginForm)
 .post(
     saveRedirectUrl,
-    passport.authenticate("local", 
+    passport.authenticate  ("local", 
                             { failureFlash: true, failureRedirect: '/login' }
                         ),// authenticate user 
     userController.login
@@ -68,3 +68,4 @@ router.get('/logout', userController.logout);
 
 //export the router
 module.exports = router;
+
