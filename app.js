@@ -1,5 +1,16 @@
 // require are 
 
+// this is to check the environment is not on production at that time only use .env file 
+// and if on production at that time not use .env file 
+if(process.env.NODE_ENV != "production") { 
+    // require dotenv and configure 
+    require('dotenv').config();
+}
+
+//print the process.env.secret
+//console.log(process.env.SECRET);
+
+
 
 // require the express module
 const express = require('express');

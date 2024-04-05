@@ -44,7 +44,6 @@ router
 
 
 .post (upload.single('listing[image]'), (req, res) => {
-        console.log(req.file);
         res.send(req.file);
 });
 
