@@ -28,8 +28,11 @@ const listingsController = require('../controllers/listings.js');
 // require multer 
 const multer  = require('multer');
 
+// require storage
+const { storage } = require('../cloudConfig.js');
+
 // require upload for multer 
-const upload = multer({ dest: 'uploads/' });
+const upload = multer({ storage });
 
 
 
