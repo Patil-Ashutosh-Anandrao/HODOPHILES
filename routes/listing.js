@@ -41,14 +41,16 @@ router
 .route("/")
 .get(wrapAsync (listingsController.index))
 
-// .post( // validateListing
-// isLoggedIn,wrapAsync (listingsController.createListing)
-// );
+ .post( // validateListing
+ isLoggedIn,
+ upload.single('listing[image]'),
+ wrapAsync (listingsController.createListing)
+ );
 
 
-.post (upload.single('listing[image]'), (req, res) => {
-        res.send(req.file);
-});
+// .post ( (req, res) => {
+//         res.send(req.file);
+// });
 
 // New Route 
 router.get('/new', isLoggedIn, listingsController.renderNewForm   );

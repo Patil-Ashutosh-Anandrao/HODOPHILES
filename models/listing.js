@@ -17,12 +17,15 @@ const listingSchema = new Schema({
     description: String,
     
     image: {
-        type: String,
-        default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fparenting.firstcry.com%2Farticles%2F15-infant-friendly-holiday-destinations%2F&psig=AOvVaw0WHfImPbbrh79iOh_1yja4&ust=1710059960438000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLiayPbj5oQDFQAAAAAdAAAAABAG", 
+        //type: String,
+        //default: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fparenting.firstcry.com%2Farticles%2F15-infant-friendly-holiday-destinations%2F&psig=AOvVaw0WHfImPbbrh79iOh_1yja4&ust=1710059960438000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLiayPbj5oQDFQAAAAAdAAAAABAG", 
         // if the image is empty/n ull/undefiined then set the default link image
         
-        set: (v) => v === "" ? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fparenting.firstcry.com%2Farticles%2F15-infant-friendly-holiday-destinations%2F&psig=AOvVaw0WHfImPbbrh79iOh_1yja4&ust=1710059960438000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLiayPbj5oQDFQAAAAAdAAAAABAG" : v ,
+        //set: (v) => v === "" ? "https://www.google.com/url?sa=i&url=https%3A%2F%2Fparenting.firstcry.com%2Farticles%2F15-infant-friendly-holiday-destinations%2F&psig=AOvVaw0WHfImPbbrh79iOh_1yja4&ust=1710059960438000&source=images&cd=vfe&opi=89978449&ved=0CBMQjRxqFwoTCLiayPbj5oQDFQAAAAAdAAAAABAG" : v ,
         // if the image is empty then set the default link image 
+
+        url : String,
+        filename: String
     },
 
     price: Number,

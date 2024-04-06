@@ -36,6 +36,9 @@ module.exports.showListing = async (req, res) => {
 
 module.exports.createListing = async (req, res, next) => {
 
+   let url =  req.file.path;
+   let filename = req.file.filename;
+
     // extract data from the body of the request
     // const { title, description, price, location, country } = req.body; 
     // insted of this we will use listing array method in new.ejs  like listing[title], listing[description] and so on
@@ -44,6 +47,8 @@ module.exports.createListing = async (req, res, next) => {
     const newListing = new Listing (req.body.listing); // extract data from the body of the request    
 
     newListing.owner = req.user._id; // add owner to the listing
+
+    newListing.image = {url, filename}; // add url to the listing
 
     await newListing.save(); // save the listing to the database
 
