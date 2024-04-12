@@ -72,14 +72,21 @@ module.exports.renderEditForm = async (req, res) => {
 
 
 module.exports.updateListing = async (req, res) => {
-    if (!req.body.listing) {
-        throw new ExpressError(400, 'Invalid Listing Data');
-    }
+    // if (!req.body.listing) {
+    //     throw new ExpressError(400, 'Invalid Listing Data');
+    // }
 
 let { id } = req.params; // extract id
 
-await Listing.findByIdAndUpdate(id, { ...req.body.listing  }); // find id and update data in listing
+let listing = await Listing.findByIdAndUpdate(id, { ...req.body.listing  }); // find id and update data in listing
 
+if (typeof req.file !== "undefined") { // if file is not undefined 
+let url =  req.file.path; // extract url from the file
+let filename = req.file.filename; // extract url and filename from the file
+listing.image = {url, filename}; // add url to the listing
+
+await listing.save(); // save the listing to the database
+}
 req.flash('success', 'Successfully  listing Updated  !');
 
 res.redirect(`/listings/${id}`); // redirect to the show route
