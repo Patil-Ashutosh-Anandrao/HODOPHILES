@@ -1,7 +1,8 @@
 <% layout("/layouts/boilerplate") %>
 <script>
     const mapToken = "<%= process.env.MAP_TOKEN %>";
-    const coordinates = <%- JSON.stringify(listing.geometry.coordinates) %>;
+    const listing = <%- JSON.stringify(listing) %>;
+    // const location = <%- JSON.stringify(listing.location) %>;
 </script>
 
 <body>

@@ -4,24 +4,24 @@
                 // https://account.mapbox.com
 
             
-
                 mapboxgl.accessToken = mapToken;
 
                 const map = new mapboxgl.Map({
                     container: 'map', // container ID
-                    style:"mapbox://styles/mapbox/streets-v12", // style URL
-                    center: [77.209, 28.6139], // starting position [lng, lat]
+                    //style: "mapbox://styles/mapbox/streets-v12", // style URL
+                    style: "mapbox://styles/mapbox/dark-v11", // style URL
+                    center: listing.geometry.coordinates, // starting position [lng, lat]
                     zoom: 9 // starting zoom
                 });
 
                 // create new marker 
-                console.log(coordinates);
+                console.log(listing.geometry.coordinates);
 
-                const marker = new mapboxgl.Marker({color:"red"})
-                .setLngLat(coordinates)
-                .setPopup(
-                    new mapboxgl.Popup({offset:25}).setHTML(
-                    `<h5>${listing.title}</h5><p>Exact location will be provided after booking</p>`
+                const marker = new mapboxgl.Marker({ color: "red" })
+                    .setLngLat(listing.geometry.coordinates)
+                    .setPopup(
+                        new mapboxgl.Popup({ offset: 25 }).setHTML(
+                            `<h5>${listing.title}</h5><p>Exact location will be provided after booking</p>`
+                        )
                     )
-                )
-                .addTo(map);
+                    .addTo(map);
