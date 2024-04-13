@@ -13,3 +13,11 @@
                     center: [73.8567, 18.5204], // starting position [lng, lat]
                     zoom: 9 // starting zoom
                 });
+
+                // create new marker 
+                console.log(coordinates);
+                
+                const marker = new mapboxgl.Marker()
+                .setLngLat(coordinates) // listing.geometry.coordinates 
+                .addTo(map);
+
