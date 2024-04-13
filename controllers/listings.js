@@ -83,7 +83,7 @@ module.exports.renderEditForm = async (req, res) => {
     }
 
     let originalImageUrl = listing.image.url; // extract url from the listing
-    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_250"); // resize the image
+    originalImageUrl = originalImageUrl.replace("/upload", "/upload/w_50"); // resize the image
 
     res.render("listings/edit.ejs", { listing , originalImageUrl }); // pass data for listing to edit.ejs
 }
