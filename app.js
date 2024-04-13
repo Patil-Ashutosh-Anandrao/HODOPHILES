@@ -129,10 +129,10 @@ const sessionOptions = {
 }
 
 
-// Basic API
-app.get('/', (req, res) => {
-    res.send('Hello I am Root  ');
-});
+// // Basic API
+// app.get('/', (req, res) => {
+//     res.send('Hello I am Root  ');
+// });
 
 
 
