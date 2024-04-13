@@ -3,17 +3,106 @@
 <!-- <%= success %>  use flash here -->
  
 <body>
-    <h3>All Listings</h3>
+    <!-- <h3>All Listings</h3> -->
     <!-- <form method="get" action="/listings/new">
         <button>Create New Listing</button>
     </form> -->
+    <style>
+        #filters{
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .filter{
+            text-align: center;
+            margin-right: 2rem;
+            margin-top: 2rem;
+            opacity: 0.7;
+        }
+
+        .filter:hover{
+            opacity: 1;
+            cursor: pointer;
+        }
+
+        .filter p {
+            font-size: 0.8rem;
+        }
+    </style>
+
+    <div id="filters">
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-fire"></i> <!-- Copy pest from fontawesome -->
+                <p>Trending</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-bed"></i> <!-- Copy pest from fontawesome -->
+                <p>Rooms</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-mountain-city"></i> <!-- Copy pest from fontawesome -->
+                <p>Iconic Cities</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-mountain"></i> <!-- Copy pest from fontawesome -->
+                <p>Mountaiins</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-fort-awesome"></i> <!-- Copy pest from fontawesome -->
+                <p>Castles</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-person-swimming"></i> <!-- Copy pest from fontawesome -->
+                <p>Amazing Pools</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-campground"></i> <!-- Copy pest from fontawesome -->
+                <p>Camping</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-cow"></i> <!-- Copy pest from fontawesome -->
+                <p>Farms</p>
+            </div>
+        </div>
+
+        <div class="filter">
+            <div>
+                <i class="fa-solid fa-snowflake"></i> <!-- Copy pest from fontawesome -->
+                <p>Arctic</p>
+            </div>
+        </div>
+
+
+    </div>
 
 
 
     <!-- row-cols-lg-3 when srceen size is large (lg) it will show minimum 3 cards in a row -->
     <!-- row-cols-md-2 when srceen size is medium (md) it will show minimum 2 cards in a row -->
     <!-- row-cols-sm-1 when srceen size is small (sm) it will show minimum 1 cards in a row -->
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
 
     <!-- This is the loop that will display all the listings -->
     <% for(let listing of allListings) {%> 
