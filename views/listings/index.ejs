@@ -94,6 +94,20 @@
             </div>
         </div>
 
+        <div class="tax-toggle">
+            <div class="form-check-reverse form-switch">
+                <input type="checkbox"
+                        class="form-check-input"
+                        role="switch"
+                        id="flexSwitchCheckDefault"
+                    />
+                <label class="form-check-label" for="flexSwitchCheckDefault">
+                    Display total after Taxes
+                </label>
+
+            </div>
+
+        </div>
 
     </div>
 
@@ -135,6 +149,13 @@
 
         
     </div>
+
+    <script>
+        let taxSwitch = document.getElementById("flexSwitchCheckDefault");
+        taxSwitch.addEventListener("click",()=>{
+            console.log("Clicked !");
+        });
+    </script>
 
 
 
