@@ -77,9 +77,10 @@ const User = require('./models/user.js');
 
 
 // Connect to the database
-const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
+// const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
 // HODOPHILES is the name of the database and this link is copied from the mongodb website 
 
+const dbUrl = process.env.ATLASDB_URL; // this is the url of the database 
 
 
 
@@ -88,7 +89,8 @@ main()
     .catch(err => console.log(err));
 
 async function main() {
-    await mongoose.connect(MONGO_URL);
+    // await mongoose.connect(MONGO_URL);
+    await mongoose.connect(dbUrl);
 }
 
 
