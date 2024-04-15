@@ -46,6 +46,9 @@ const ExpressError = require('./public/util/ExpressError.js');
 // require express session 
 const session = require("express-session");
 
+// require connect mongo 
+const MongoStore = require('connect-mongo');
+
 
 // require listingSchema
 const { listingSchema, reviewSchema } = require('./schema.js');
