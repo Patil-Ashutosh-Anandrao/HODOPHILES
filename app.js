@@ -118,6 +118,17 @@ app.engine('ejs', ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 
+// use mongo store 
+const store = MongoStore.create({
+    mongoUrl: dbUrl;
+    crypto:{
+        secret: "my_super_secret_code";
+    },
+    touchAfter : 24*3600,
+})
+
+
+
 // define session options 
 const sessionOptions = { 
     secret: "my_super_secret_code", // this is the secret code to hash the session id
@@ -139,14 +150,14 @@ const sessionOptions = {
 //     res.send('Hello I am Root  ');
 // });
 
-// use mongo store 
-const store = MongoStore.create({
-    mongoUrl: dbUrl;
-    crypto:{
-        secret: "my_super_secret_code";
-    },
-    touchAfter : 24*3600,
-})
+// // use mongo store 
+// const store = MongoStore.create({
+//     mongoUrl: dbUrl;
+//     crypto:{
+//         secret: "my_super_secret_code";
+//     },
+//     touchAfter : 24*3600,
+// })
 
 
 
