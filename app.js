@@ -120,17 +120,21 @@ app.use(express.static(path.join(__dirname, "/public")));
 
 // use mongo store 
 const store = MongoStore.create({
-    mongoUrl: dbUrl;
+    mongoUrl: dbUrl,
     crypto:{
         secret: "my_super_secret_code";
     },
     touchAfter : 24*3600,
 })
 
+store.on("error", ()=> {
+    console.log("ERROR in MONGO SESSION STORE", err);
+})
 
 
 // define session options 
 const sessionOptions = { 
+    store,
     secret: "my_super_secret_code", // this is the secret code to hash the session id
     resave: false, // this is to avoid saving the session again and again
     saveUninitialized: true, // this is to save the session in the database
