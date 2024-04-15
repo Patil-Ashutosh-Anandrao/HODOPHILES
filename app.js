@@ -139,6 +139,15 @@ const sessionOptions = {
 //     res.send('Hello I am Root  ');
 // });
 
+// use mongo store 
+const store = MongoStore.create({
+    mongoUrl: dbUrl;
+    crypto:{
+        secret: "my_super_secret_code";
+    },
+    touchAfter : 24*3600,
+})
+
 
 
 // use the session options
