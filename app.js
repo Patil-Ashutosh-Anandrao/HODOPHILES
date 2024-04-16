@@ -80,7 +80,7 @@ const User = require('./models/user.js');
 
 
 // Connect to the database
-// const MONGO_URL= 'mongodb://127.0.0.1:27017/HODOPHILES'; 
+// const MONGO_URL= 'mongodb://...../HODOPHILES'; 
 // HODOPHILES is the name of the database and this link is copied from the mongodb website 
 
 const dbUrl = process.env.ATLASDB_URL; // this is the url of the database 
@@ -122,7 +122,7 @@ app.use(express.static(path.join(__dirname, "/public")));
 const store = MongoStore.create({
     mongoUrl: dbUrl,
     crypto:{
-        secret: "my_super_secret_code",
+        secret: process.env.SECRET,
     },
     touchAfter : 24*3600,
 })
@@ -135,7 +135,7 @@ store.on("error", ()=> {
 // define session options 
 const sessionOptions = { 
     store,
-    secret: "my_super_secret_code", // this is the secret code to hash the session id
+    secret: process.env.SECRET, // this is the secret code to hash the session id
     resave: false, // this is to avoid saving the session again and again
     saveUninitialized: true, // this is to save the session in the database
 
